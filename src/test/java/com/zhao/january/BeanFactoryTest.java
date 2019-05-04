@@ -15,7 +15,7 @@ public class BeanFactoryTest {
 
     @Test
     public void test() throws IllegalAccessException, NoSuchFieldException, InstantiationException, ParserConfigurationException, SAXException, IOException {
-        BeanFactory beanFactory = new AutowireCapableBeanFactory();
+        AutowireCapableBeanFactory beanFactory = new AutowireCapableBeanFactory();
 
         XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(new ResourceLoader());
         xmlBeanDefinitionReader.loadBeanDefinitions("spring.xml");
@@ -25,7 +25,7 @@ public class BeanFactoryTest {
         }
 
         // 提前初始化
-        ((AutowireCapableBeanFactory) beanFactory).preInstantiateSingletons();
+        beanFactory.preInstantiateSingletons();
 
         ParentService parentService = (ParentService) beanFactory.getBean("parentService");
         parentService.hello();
