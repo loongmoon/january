@@ -24,6 +24,9 @@ public class BeanFactoryTest {
             beanFactory.registerBeanDefinition(entry.getKey(), entry.getValue());
         }
 
+        // 提前初始化
+        ((AutowireCapableBeanFactory) beanFactory).preInstantiateSingletons();
+
         ParentService parentService = (ParentService) beanFactory.getBean("parentService");
         parentService.hello();
     }

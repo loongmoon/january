@@ -10,11 +10,13 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory {
     @Override
     protected Object doCreatBean(BeanDefinition beanDefinition) throws InstantiationException, IllegalAccessException, NoSuchFieldException {
         Object bean = createBeanInstance(beanDefinition);
+        beanDefinition.setBean(bean);
         applyPropertyValues(bean, beanDefinition);
         return bean;
     }
 
     public Object createBeanInstance(BeanDefinition beanDefinition) throws IllegalAccessException, InstantiationException {
+        System.out.println("初始化" + beanDefinition.getBeanClassName());
         return beanDefinition.getBeanClass().newInstance();
     }
 

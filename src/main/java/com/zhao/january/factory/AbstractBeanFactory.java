@@ -33,6 +33,13 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         beanDefinitionNames.add(name);
     }
 
+    public void preInstantiateSingletons() throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+        for (String beanDefinitionName : beanDefinitionNames) {
+            getBean(beanDefinitionName);
+        }
+    }
+
+
     protected abstract Object doCreatBean(BeanDefinition beanDefinition) throws InstantiationException, IllegalAccessException, NoSuchFieldException;
 
 }
