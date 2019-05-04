@@ -24,8 +24,8 @@ public class BeanFactoryTest {
             beanFactory.registerBeanDefinition(entry.getKey(), entry.getValue());
         }
 
-        HelloWorldService helloWorldService = (HelloWorldService) beanFactory.getBean("helloWorldService");
-        helloWorldService.hello();
+        ParentService parentService = (ParentService) beanFactory.getBean("parentService");
+        parentService.hello();
     }
 
 }

@@ -12,4 +12,8 @@
         <property name="text" value="Hello World!"></property>
     </bean>
 
+    <bean name="parentService" class="com.zhao.january.ParentService">
+        <property name="helloWorldService" ref="helloWorldService"></property>
+    </bean>
+
 </beans>

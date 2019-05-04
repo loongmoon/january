@@ -2,6 +2,7 @@ package com.zhao.january.xml;
 
 import com.zhao.january.AbstractBeanDefinitionReader;
 import com.zhao.january.BeanDefinition;
+import com.zhao.january.BeanReference;
 import com.zhao.january.PropertyValue;
 import com.zhao.january.io.ResourceLoader;
 import org.w3c.dom.Document;
@@ -67,7 +68,17 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 Element propertyElement = (Element) node;
                 String propertyName = propertyElement.getAttribute("name");
                 String propertyValue = propertyElement.getAttribute("value");
-                beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(propertyName, propertyValue));
+                if (propertyValue != null && propertyValue.length() > 0) {
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(propertyName, propertyValue));
+                } else {
+                    String ref = propertyElement.getAttribute("ref");
+                    if (ref == null || ref.length() <= 0) {
+                        throw new IllegalArgumentException("Configuration problem: <property> element for property '"
+                                + propertyName + "' must specify a ref or value");
+                    }
+                    BeanReference beanReference = new BeanReference(ref);
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(propertyName, beanReference));
+                }
             }
         }
     }

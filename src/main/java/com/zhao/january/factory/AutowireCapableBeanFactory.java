@@ -1,6 +1,7 @@
 package com.zhao.january.factory;
 
 import com.zhao.january.BeanDefinition;
+import com.zhao.january.BeanReference;
 import com.zhao.january.PropertyValue;
 
 import java.lang.reflect.Field;
@@ -21,7 +22,12 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory {
         for (PropertyValue propertyValue : mbd.getPropertyValues().getPropertyValueList()) {
             Field declaredField = bean.getClass().getDeclaredField(propertyValue.getName());
             declaredField.setAccessible(true);
-            declaredField.set(bean, propertyValue.getValue());
+            Object value = propertyValue.getValue();
+            if (value instanceof BeanReference) {
+                BeanReference beanReference = (BeanReference) value;
+                value = getBean(beanReference.getName());
+            }
+            declaredField.set(bean, value);
         }
     }
 
